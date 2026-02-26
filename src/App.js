@@ -267,7 +267,7 @@ export default function App() {
         ? {type:"document",source:{type:"base64",media_type:"application/pdf",data:fileB64}}
         : {type:"image",source:{type:"base64",media_type:"image/jpeg",data:fileB64}};
       const res = await fetch("https://api.anthropic.com/v1/messages",{
-        method:"POST",headers:{"Content-Type":"application/json"},
+        method:"POST",headers:{"Content-Type":"application/json","x-api-key":process.env.REACT_APP_ANTHROPIC_KEY,"anthropic-version":"2023-06-01"},
         body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:2000,messages:[{role:"user",content:[fileBlock,{type:"text",text:PROMPT}]}]})
       });
       const data = await res.json();
