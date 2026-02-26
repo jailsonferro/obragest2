@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { PlusCircle, Trash2, Upload, BarChart2, FileSpreadsheet, Camera, ChevronDown, ChevronUp, X, Save, FolderOpen, Plus, Loader, Package, DollarSign, TrendingUp, AlertTriangle, CheckCircle, Clock, Home, Menu, Bell, Settings, Eye, Download, RefreshCw, ArrowUp, ArrowDown, Minus } from "lucide-react";
+import { PlusCircle, Trash2, Upload, BarChart2, ChevronDown, ChevronUp, X, Save, Plus, AlertTriangle, Menu } from "lucide-react";
 
 // ─── CONSTANTS ───────────────────────────────────────────────────────────────
 const ETAPAS = ["Fundação","Estrutura","Alvenaria","Cobertura","Elétrica","Hidráulica","Revestimento","Acabamento","Pintura","Impermeabilização","Jardinagem","Serralheria","Esquadrias","Gesso/Drywall","Climatização","Limpeza de Obra","Outros"];
@@ -10,8 +10,7 @@ const TIPO_TRANSACAO = ["Entrada","Saída"];
 const STATUS_MATERIAL = ["Em Estoque","Baixo Estoque","Esgotado","Pedido Realizado","Aguardando Entrega"];
 
 const fmt = v => (v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
-const fmtN = v => (parseFloat(v)||0).toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
-const slugify = s => s.trim().replace(/\s+/g,"-").replace(/[^a-zA-Z0-9\-]/g,"").toLowerCase();
+const slugify = s => s.trim().replace(/\s+/g,"-").replace(/[^a-zA-Z0-9-]/g,"").toLowerCase();
 const today = () => new Date().toISOString().split("T")[0];
 const emptyRow = (etapa="Fundação") => ({ id: crypto.randomUUID(), etapa, descricao:"", unidade:"m²", quantidade:"", precoUnit:"" });
 const emptyTransacao = () => ({ id: crypto.randomUUID(), data: today(), tipo:"Saída", categoria:"Materiais", descricao:"", valor:"", etapa:"Outros", observacao:"" });
@@ -155,7 +154,6 @@ export default function App() {
   const transacoes = obraAtual?.transacoes || [];
   const materiais = obraAtual?.materiais || [];
   const bdi = obraAtual?.bdi || "";
-  const orcamento = obraAtual?.orcamentoTotal || "";
 
   const rowTotal = r => (parseFloat(r.quantidade)||0)*(parseFloat(r.precoUnit)||0);
   const grandTotal = rows.reduce((s,r)=>s+rowTotal(r),0);
